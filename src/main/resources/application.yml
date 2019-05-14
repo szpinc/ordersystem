@@ -1,0 +1,45 @@
+server:
+  port: 8088
+  servlet:
+    context-path: /ordersystem
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: ORDERSYSTEM
+
+  datasource:
+    druid:
+      url: jdbc:mysql://192.168.31.100:3306/ordersystem?allowMutiQueries=true&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+      username: root
+      password: 123456
+      initial-size: 1
+      max-active: 10
+      min-idle: 10
+      #空闲连接，每十秒监测一次
+      time-between-eviction-runs-millis: 10000
+      #空间连接存活数，到时间就抛弃
+      min-evictable-idle-time-millis: 30000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      #不要加wall，该过滤用户会防止SQL注入，会阻塞alter语句
+      filters: stat,slf4j
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=1000
+      use-global-data-source-stat: true
+      driver-class-name: com.mysql.jdbc.Driver
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+  mvc:
+    favicon:
+      enabled: false
+    static-path-pattern: /static/**
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+logging:
+  level:
+    com.furant.ordersystem: DEBUG
